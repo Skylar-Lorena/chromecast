@@ -4,6 +4,10 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Welcome Lord of The Drums</title>
+
+<!-- Chromecast CAF Receiver -->
+<script src="https://www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
+
 <style>
     html, body {
         margin: 0;
@@ -35,16 +39,17 @@
     /* Container */
     #textWrapper {
         position: absolute;
-        top: 50%;
+        top: 33%;
         left: 50%;
         transform: translate(-50%, -50%);
         color: #f6e7c3;
         text-align: center;
         text-shadow: 0 0 25px rgba(255,215,128,0.8), 0 0 50px rgba(255,215,128,0.4);
-        font-size: 4rem;
+        font-size: 3.8rem;
         letter-spacing: 2px;
         opacity: 0;
         animation: fadeIn 4s forwards ease-out 1s;
+        padding: 0 2rem;
     }
 
     @keyframes fadeIn {
@@ -113,14 +118,211 @@
         from { transform: translateY(0); opacity: 0.8; }
         to { transform: translateY(-200px); opacity: 0; }
     }
+
+    /* Expensive Drum Kit */
+    .drum-kit {
+        position: absolute;
+        bottom: 4vh;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 70vw;
+        max-width: 1100px;
+        height: 40vh;
+        pointer-events: none;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        filter: drop-shadow(0 0 25px rgba(0,0,0,0.9));
+    }
+
+    .drum-piece {
+        position: relative;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 20%, #fff8e0 0%, #c08935 40%, #4b2a10 100%);
+        box-shadow:
+            0 0 18px rgba(0,0,0,0.7),
+            inset 0 0 8px rgba(0,0,0,0.7);
+        border: 4px solid rgba(255, 230, 180, 0.9);
+    }
+
+    .kick {
+        width: 220px;
+        height: 220px;
+        margin: 0 30px;
+        background: radial-gradient(circle at 30% 20%, #fefefe 0%, #d0d0d0 40%, #444 100%);
+        border-radius: 50%;
+        position: relative;
+    }
+
+    .kick::before {
+        content: "";
+        position: absolute;
+        inset: 10px;
+        border-radius: 50%;
+        border: 3px solid rgba(255, 215, 128, 0.7);
+        box-shadow: 0 0 12px rgba(255,215,128,0.6);
+    }
+
+    .rack-tom, .floor-tom, .snare {
+        width: 110px;
+        height: 110px;
+    }
+
+    .rack-tom {
+        transform: translateY(-40px);
+    }
+
+    .floor-tom {
+        transform: translateY(-10px);
+    }
+
+    .snare {
+        background: radial-gradient(circle at 30% 20%, #ffffff 0%, #dcdcdc 35%, #7a7a7a 100%);
+        box-shadow:
+            0 0 15px rgba(0,0,0,0.6),
+            inset 0 0 5px rgba(0,0,0,0.6);
+    }
+
+    .drum-row {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 20px;
+    }
+
+    .cymbal {
+        position: relative;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 40% 20%, #fff0bd 0%, #e2b24b 30%, #8a5a16 80%);
+        box-shadow:
+            0 0 20px rgba(255,215,128,0.9),
+            0 0 45px rgba(255,215,128,0.4);
+        transform-origin: center 120%;
+        animation: cymbalShimmer 6s ease-in-out infinite;
+    }
+
+    .cymbal::after {
+        content: "";
+        position: absolute;
+        top: 34%;
+        left: 34%;
+        width: 32%;
+        height: 32%;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 240, 200, 0.9);
+        box-shadow: 0 0 10px rgba(255,240,200,0.7);
+    }
+
+    .cymbal.left {
+        transform: translate(-60px, -90px);
+    }
+
+    .cymbal.right {
+        transform: translate(60px, -100px);
+    }
+
+    @keyframes cymbalShimmer {
+        0%, 100% { transform: rotate(0deg) scale(1); }
+        50% { transform: rotate(1.5deg) scale(1.02); }
+    }
+
+    .hi-hat {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 40% 20%, #fff0bd 0%, #e2c76b 30%, #7b6123 80%);
+        box-shadow:
+            0 0 18px rgba(255,215,128,0.8),
+            0 0 40px rgba(255,215,128,0.4);
+        transform-origin: center 110%;
+        animation: cymbalShimmer 7s ease-in-out infinite;
+    }
+
+    .hi-hat::before,
+    .hi-hat::after {
+        content: "";
+        position: absolute;
+        inset: 18%;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 240, 200, 0.8);
+    }
+
+    .hi-hat::after {
+        inset: 30%;
+        border-color: rgba(255, 250, 230, 0.9);
+    }
+
+    /* Subtle stage reflection */
+    .stage-reflection {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80vw;
+        max-width: 1200px;
+        height: 18vh;
+        background: radial-gradient(ellipse at top, rgba(255,215,128,0.25) 0%, transparent 60%);
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+        #textWrapper {
+            font-size: 2.4rem;
+            top: 30%;
+        }
+        .kick {
+            width: 170px;
+            height: 170px;
+        }
+        .rack-tom, .floor-tom, .snare {
+            width: 90px;
+            height: 90px;
+        }
+        .cymbal {
+            width: 130px;
+            height: 130px;
+        }
+        .hi-hat {
+            width: 100px;
+            height: 100px;
+        }
+    }
 </style>
 </head>
 <body>
 
 <div class="mythic-glow"></div>
+
 <div id="textWrapper">
     <span class="glitch" data-text="WELCOME LORD OF THE DRUMS">WELCOME LORD OF THE DRUMS</span>
 </div>
+
+<!-- Expensive Mythic Drum Kit -->
+<div class="drum-kit">
+    <div class="cymbal left cymbal"></div>
+
+    <div class="drum-row">
+        <div class="rack-tom drum-piece"></div>
+        <div class="snare drum-piece"></div>
+        <div class="kick"></div>
+        <div class="floor-tom drum-piece"></div>
+        <div class="rack-tom drum-piece"></div>
+    </div>
+
+    <div class="cymbal right cymbal"></div>
+
+    <div class="hi-hat" style="position:absolute; left:16%; bottom:14%;"></div>
+</div>
+
+<div class="stage-reflection"></div>
 
 <script>
 // Generate floating particles for mythical atmosphere
@@ -133,6 +335,22 @@ for (let i = 0; i < 40; i++) {
     p.style.transform = 'scale(' + (0.4 + Math.random()*1.4) + ')';
     document.body.appendChild(p);
 }
+
+// Chromecast CAF Receiver: listen for custom messages
+const context = cast.framework.CastReceiverContext.getInstance();
+
+context.addCustomMessageListener(
+    "urn:x-cast:com.google.cast.sample.helloworld",
+    event => {
+        const msg = event.data.text;
+        console.log("Received message:", msg);
+
+        const wrapper = document.getElementById("textWrapper");
+        wrapper.innerHTML = `<span class="glitch" data-text="${msg}">${msg}</span>`;
+    }
+);
+
+context.start();
 </script>
 
 </body>
