@@ -10,7 +10,7 @@ if not chromecasts:
     raise SystemExit("No Chromecast found – check Wi-Fi")
 
 # 2. Pick the one connected to your Hisense TV (by friendly name or UUID)
-cc = next(c for c in chromecasts if "Hisense" in c.name or "Living Room" in c.name)
+cc = next(c for c in chromecasts if "Hisense" in c.name or "Living Room TV" in c.name)
 
 # 3. Stop whatever is playing
 cc.quit_app()
