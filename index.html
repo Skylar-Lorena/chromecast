@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<body style="margin:0;background:#000;color:#fff;font:9vw sans-serif;display:flex;align-items:center;justify-content:center">
+<div id="msg"></div>
+<script src="https://www.gstatic.com/cast/sdk/libs/receiver/2/cast_receiver.js"></script>
+<script>
+const context = cast.framework.CastReceiverContext.getInstance();
+const player = context.getPlayerManager();
+
+context.addCustomMessageListener('urn:x-cast:com.google.cast.sample.helloworld', e => {
+  if (e.data.type === 'SHOW_TEXT') document.getElementById('msg').innerText = e.data.text;
+});
+
+player.addEventListener(cast.framework.events.EventType.MEDIA_STATUS, e => {
+  if (e.mediaStatus.playerState === 'PLAYING') context.start();
+});
+context.start();
+</script>
+</body>
+</html>
