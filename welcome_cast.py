@@ -21,7 +21,7 @@ NAME = "Lord of the Drums"
 MESSAGE = f"Welcome {NAME}!"
 
 # Change this to your GitHub Pages URL:
-RECEIVER_URL = "https://skylar-lorena.github.io/chromecast/"
+RECEIVER_URL = "https://skylar-lorena.github.io/chromecast/v=2"
 
 
 # -----------------------------
